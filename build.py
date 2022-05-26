@@ -11,7 +11,7 @@ metaData = """// ==UserScript==
 // @match       https://www.youtube.com/*
 // @match       https://m.youtube.com/*
 // @grant       none
-// @version     1.0
+// @version     1.1
 // @author      AstragoDE (https://github.com/AstragoDE)
 // @run-at      document-end
 // @downloadURL https://github.com/AstragoTech/youtube_chapter_auto_open/raw/main/build/youtube_chapter_auto_open.user.js
