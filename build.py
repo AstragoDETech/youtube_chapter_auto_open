@@ -14,6 +14,13 @@ metaData = """// ==UserScript==
 // @version     1.0
 // @author      AstragoDE (https://github.com/AstragoDE)
 // @run-at      document-end
+// @downloadURL https://github.com/AstragoTech/youtube_chapter_auto_open/raw/main/build/youtube_chapter_auto_open.user.js
+// @updateURL   https://github.com/AstragoTech/youtube_chapter_auto_open/raw/main/build/youtube_chapter_auto_open.user.js
+// @compatible  chrome Chrome + Tampermonkey or Violentmonkey
+// @compatible  firefox Firefox + Greasemonkey or Tampermonkey or Violentmonkey
+// @compatible  opera Opera + Tampermonkey or Violentmonkey
+// @compatible  edge Edge + Tampermonkey or Violentmonkey
+// @compatible  safari Safari + Tampermonkey or Violentmonkey
 // ==/UserScript==
 
 """
