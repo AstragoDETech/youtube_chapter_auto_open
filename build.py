@@ -10,7 +10,7 @@ subprocess.call(
 code = ""
 metaData = f"""// ==UserScript==
 // @name        YouTube chapter auto open
-// @description Automatically opens the YouTube chapter selecttion.
+// @description Automatically opens the YouTube chapter selection.
 // @namespace   Violentmonkey Scripts
 // @match       https://www.youtube.com/*
 // @match       https://m.youtube.com/*
