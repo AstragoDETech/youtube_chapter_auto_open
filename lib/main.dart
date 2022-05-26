@@ -12,7 +12,7 @@ void main() {
 
     if (currentLoc != lastLoc) {
       Timer.periodic(Duration(milliseconds: 250), (timer) {
-        if (timer.tick <= 8) {
+        if (timer.tick <= 10) {
           // window.console.info('--- RUN QS CLICK --');
 
           querySelector('.ytp-chapter-title-content')?.click();
