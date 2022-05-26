@@ -3492,7 +3492,7 @@
   A.main__closure.prototype = {
     call$1(timer) {
       var t1;
-      if (timer._tick <= 4) {
+      if (timer._tick <= 8) {
         t1 = document.querySelector(".ytp-chapter-title-content");
         if (t1 != null)
           J.click$0$x(t1);
