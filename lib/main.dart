@@ -11,6 +11,7 @@ void main() {
     // window.console.info('C: $currentLoc  -  L: $lastLoc');
 
     if (currentLoc != lastLoc) {
+      /// Try to click the open chapter Button for 2.5 seconds
       Timer.periodic(Duration(milliseconds: 250), (timer) {
         if (timer.tick <= 10) {
           // window.console.info('--- RUN QS CLICK --');
