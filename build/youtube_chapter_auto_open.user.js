@@ -5,7 +5,7 @@
 // @match       https://www.youtube.com/*
 // @match       https://m.youtube.com/*
 // @grant       none
-// @version     1.0.3
+// @version     1.1.0
 // @author      AstragoDE (https://github.com/AstragoDE)
 // @run-at      document-end
 // @downloadURL https://github.com/AstragoTech/youtube_chapter_auto_open/raw/main/build/youtube_chapter_auto_open.user.js
@@ -323,7 +323,7 @@
       $length = A._asInt(J.get$length$asx(indexable));
       if (index < 0 || index >= $length)
         return new A.IndexError($length, true, index, _s5_, "Index out of range");
-      return new A.RangeError(true, index, _s5_, "Value not in range");
+      return new A.RangeError(null, null, true, index, _s5_, "Value not in range");
     },
     wrapException(ex) {
       var wrapper, t1;
@@ -892,6 +892,23 @@
     applyHooksTransformer(transformer, hooks) {
       return transformer(hooks) || hooks;
     },
+    JSSyntaxRegExp_makeNative(source, multiLine, caseSensitive, unicode, dotAll, global) {
+      var m = multiLine ? "m" : "",
+        i = caseSensitive ? "" : "i",
+        u = unicode ? "u" : "",
+        s = dotAll ? "s" : "",
+        g = global ? "g" : "",
+        regexp = function(source, modifiers) {
+          try {
+            return new RegExp(source, modifiers);
+          } catch (e) {
+            return e;
+          }
+        }(source, m + i + u + s + g);
+      if (regexp instanceof RegExp)
+        return regexp;
+      throw A.wrapException(new A.FormatException("Illegal RegExp pattern (" + String(regexp) + ")", source));
+    },
     quoteStringForRegExp(string) {
       if (/[[\]{}()*+?.\\^$|]/.test(string))
         return string.replace(/[[\]{}()*+?.\\^$|]/g, "\\$&");
@@ -950,6 +967,14 @@
     },
     initHooks_closure1: function initHooks_closure1(t0) {
       this.prototypeForTag = t0;
+    },
+    JSSyntaxRegExp: function JSSyntaxRegExp(t0, t1) {
+      this.pattern = t0;
+      this._nativeRegExp = t1;
+      this._nativeAnchoredRegExp = null;
+    },
+    _MatchImplementation: function _MatchImplementation(t0) {
+      this._match = t0;
     },
     Rti__getQuestionFromStar(universe, rti) {
       var question = rti._precomputed1;
@@ -2557,6 +2582,9 @@
       throw error;
       throw A.wrapException("unreachable");
     },
+    RegExp_RegExp(source) {
+      return new A.JSSyntaxRegExp(source, A.JSSyntaxRegExp_makeNative(source, false, true, false, false, false));
+    },
     StringBuffer__writeAll(string, objects, separator) {
       var t2,
         t1 = A._arrayInstanceType(objects),
@@ -2595,6 +2623,16 @@
     ArgumentError$(message) {
       return new A.ArgumentError(false, null, null, message);
     },
+    RangeError$range(invalidValue, minValue, maxValue, $name, message) {
+      return new A.RangeError(minValue, maxValue, true, invalidValue, $name, "Invalid value");
+    },
+    RangeError_checkValidRange(start, end, $length) {
+      if (0 > start || start > $length)
+        throw A.wrapException(A.RangeError$range(start, 0, $length, "start", null));
+      if (start > end || end > $length)
+        throw A.wrapException(A.RangeError$range(end, start, $length, "end", null));
+      return end;
+    },
     UnsupportedError$(message) {
       return new A.UnsupportedError(message);
     },
@@ -2620,12 +2658,14 @@
       _.name = t2;
       _.message = t3;
     },
-    RangeError: function RangeError(t0, t1, t2, t3) {
+    RangeError: function RangeError(t0, t1, t2, t3, t4, t5) {
       var _ = this;
-      _._hasValue = t0;
-      _.invalidValue = t1;
-      _.name = t2;
-      _.message = t3;
+      _.start = t0;
+      _.end = t1;
+      _._hasValue = t2;
+      _.invalidValue = t3;
+      _.name = t4;
+      _.message = t5;
     },
     IndexError: function IndexError(t0, t1, t2, t3, t4) {
       var _ = this;
@@ -2653,6 +2693,10 @@
     },
     _Exception: function _Exception(t0) {
       this.message = t0;
+    },
+    FormatException: function FormatException(t0, t1) {
+      this.message = t0;
+      this.source = t1;
     },
     Null: function Null() {
     },
@@ -2997,6 +3041,12 @@
     $add(receiver, other) {
       return receiver + other;
     },
+    startsWith$1(receiver, pattern) {
+      return pattern._execAnchored$2(receiver, 0) != null;
+    },
+    substring$2(receiver, start, end) {
+      return receiver.substring(start, A.RangeError_checkValidRange(start, end, receiver.length));
+    },
     $mul(receiver, times) {
       var s, result;
       if (0 >= times)
@@ -3027,6 +3077,7 @@
     get$length(receiver) {
       return receiver.length;
     },
+    $isPattern: 1,
     $isString: 1
   };
   A.LateError.prototype = {
@@ -3156,6 +3207,36 @@
     },
     $signature: 6
   };
+  A.JSSyntaxRegExp.prototype = {
+    toString$0(_) {
+      return "RegExp/" + this.pattern + "/" + this._nativeRegExp.flags;
+    },
+    get$_nativeAnchoredVersion() {
+      var _this = this,
+        t1 = _this._nativeAnchoredRegExp;
+      if (t1 != null)
+        return t1;
+      t1 = _this._nativeRegExp;
+      return _this._nativeAnchoredRegExp = A.JSSyntaxRegExp_makeNative(_this.pattern + "|()", t1.multiline, !t1.ignoreCase, t1.unicode, t1.dotAll, true);
+    },
+    _execAnchored$2(string, start) {
+      var match,
+        regexp = this.get$_nativeAnchoredVersion();
+      if (regexp == null)
+        regexp = type$.Object._as(regexp);
+      regexp.lastIndex = start;
+      match = regexp.exec(string);
+      if (match == null)
+        return null;
+      if (0 >= match.length)
+        return A.ioore(match, -1);
+      if (match.pop() != null)
+        return null;
+      return new A._MatchImplementation(match);
+    },
+    $isPattern: 1
+  };
+  A._MatchImplementation.prototype = {};
   A.Rti.prototype = {
     _eval$1(recipe) {
       return A._Universe_evalInEnvironment(init.typeUniverse, this, recipe);
@@ -3350,7 +3431,18 @@
       return "RangeError";
     },
     get$_errorExplanation() {
-      return "";
+      var explanation,
+        start = this.start,
+        end = this.end;
+      if (start == null)
+        explanation = end != null ? ": Not less than or equal to " + A.S(end) : "";
+      else if (end == null)
+        explanation = ": Not greater than or equal to " + A.S(start);
+      else if (end > start)
+        explanation = ": Not in inclusive range " + A.S(start) + ".." + A.S(end);
+      else
+        explanation = end < start ? ": Valid value range is empty" : ": Only valid value is " + A.S(start);
+      return explanation;
     }
   };
   A.IndexError.prototype = {
@@ -3404,6 +3496,16 @@
   A._Exception.prototype = {
     toString$0(_) {
       return "Exception: " + this.message;
+    }
+  };
+  A.FormatException.prototype = {
+    toString$0(_) {
+      var message = this.message,
+        report = "" !== message ? "FormatException: " + message : "FormatException",
+        source = this.source;
+      if (source.length > 78)
+        source = B.JSString_methods.substring$2(source, 0, 75) + "...";
+      return report + "\n" + source;
     }
   };
   A.Null.prototype = {
@@ -3486,7 +3588,8 @@
         t1 = this._box_0;
       t1.currentLoc = currentLoc;
       if (currentLoc !== t1.lastLoc)
-        A.Timer_Timer$periodic(A.Duration$(250), new A.main__closure());
+        if (B.JSString_methods.startsWith$1(currentLoc, A.RegExp_RegExp("https:\\/\\/(w{3}|m).youtube.com\\/watch")))
+          A.Timer_Timer$periodic(A.Duration$(250), new A.main__closure());
       t1.lastLoc = t1.currentLoc;
     },
     $signature: 3
@@ -3521,7 +3624,7 @@
     var _inherit = hunkHelpers.inherit,
       _inheritMany = hunkHelpers.inheritMany;
     _inherit(A.Object, null);
-    _inheritMany(A.Object, [A.JS_CONST, J.Interceptor, J.ArrayIterator, A.Error, A.TypeErrorDecoder, A.NullThrownFromJavaScriptException, A._StackTrace, A.Closure, A.Rti, A._FunctionParameters, A._TimerImpl, A._AsyncCallbackEntry, A._Zone, A.Duration, A.OutOfMemoryError, A.StackOverflowError, A._Exception, A.Null, A.StringBuffer]);
+    _inheritMany(A.Object, [A.JS_CONST, J.Interceptor, J.ArrayIterator, A.Error, A.TypeErrorDecoder, A.NullThrownFromJavaScriptException, A._StackTrace, A.Closure, A.JSSyntaxRegExp, A._MatchImplementation, A.Rti, A._FunctionParameters, A._TimerImpl, A._AsyncCallbackEntry, A._Zone, A.Duration, A.OutOfMemoryError, A.StackOverflowError, A._Exception, A.FormatException, A.Null, A.StringBuffer]);
     _inheritMany(J.Interceptor, [J.JSBool, J.JSNull, J.JavaScriptObject, J.JSArray, J.JSNumber, J.JSString]);
     _inheritMany(J.JavaScriptObject, [J.LegacyJavaScriptObject, A.EventTarget, A.DomException, A.Location]);
     _inheritMany(J.LegacyJavaScriptObject, [J.PlainJavaScriptObject, J.UnknownJavaScriptObject, J.JavaScriptFunction]);
@@ -3550,7 +3653,7 @@
     leafTags: null,
     arrayRti: Symbol("$ti")
   };
-  A._Universe_addRules(init.typeUniverse, JSON.parse('{"PlainJavaScriptObject":"LegacyJavaScriptObject","UnknownJavaScriptObject":"LegacyJavaScriptObject","JavaScriptFunction":"LegacyJavaScriptObject","JSBool":{"bool":[]},"JSArray":{"Iterable":["1"]},"JSUnmodifiableArray":{"JSArray":["1"],"Iterable":["1"]},"JSNumber":{"num":[]},"JSInt":{"int":[],"num":[]},"JSNumNotInt":{"num":[]},"JSString":{"String":[]},"LateError":{"Error":[]},"NullError":{"Error":[]},"JsNoSuchMethodError":{"Error":[]},"UnknownJsTypeError":{"Error":[]},"_StackTrace":{"StackTrace":[]},"Closure":{"Function":[]},"Closure0Args":{"Function":[]},"Closure2Args":{"Function":[]},"TearOffClosure":{"Function":[]},"StaticClosure":{"Function":[]},"BoundClosure":{"Function":[]},"RuntimeError":{"Error":[]},"_Error":{"Error":[]},"_TypeError":{"Error":[]},"_TimerImpl":{"Timer":[]},"AssertionError":{"Error":[]},"TypeError":{"Error":[]},"NullThrownError":{"Error":[]},"ArgumentError":{"Error":[]},"RangeError":{"Error":[]},"IndexError":{"Error":[]},"UnsupportedError":{"Error":[]},"UnimplementedError":{"Error":[]},"ConcurrentModificationError":{"Error":[]},"OutOfMemoryError":{"Error":[]},"StackOverflowError":{"Error":[]},"CyclicInitializationError":{"Error":[]}}'));
+  A._Universe_addRules(init.typeUniverse, JSON.parse('{"PlainJavaScriptObject":"LegacyJavaScriptObject","UnknownJavaScriptObject":"LegacyJavaScriptObject","JavaScriptFunction":"LegacyJavaScriptObject","JSBool":{"bool":[]},"JSArray":{"Iterable":["1"]},"JSUnmodifiableArray":{"JSArray":["1"],"Iterable":["1"]},"JSNumber":{"num":[]},"JSInt":{"int":[],"num":[]},"JSNumNotInt":{"num":[]},"JSString":{"String":[],"Pattern":[]},"LateError":{"Error":[]},"NullError":{"Error":[]},"JsNoSuchMethodError":{"Error":[]},"UnknownJsTypeError":{"Error":[]},"_StackTrace":{"StackTrace":[]},"Closure":{"Function":[]},"Closure0Args":{"Function":[]},"Closure2Args":{"Function":[]},"TearOffClosure":{"Function":[]},"StaticClosure":{"Function":[]},"BoundClosure":{"Function":[]},"RuntimeError":{"Error":[]},"JSSyntaxRegExp":{"Pattern":[]},"_Error":{"Error":[]},"_TypeError":{"Error":[]},"_TimerImpl":{"Timer":[]},"String":{"Pattern":[]},"AssertionError":{"Error":[]},"TypeError":{"Error":[]},"NullThrownError":{"Error":[]},"ArgumentError":{"Error":[]},"RangeError":{"Error":[]},"IndexError":{"Error":[]},"UnsupportedError":{"Error":[]},"UnimplementedError":{"Error":[]},"ConcurrentModificationError":{"Error":[]},"OutOfMemoryError":{"Error":[]},"StackOverflowError":{"Error":[]},"CyclicInitializationError":{"Error":[]}}'));
   var type$ = (function rtii() {
     var findType = A.findType;
     return {
