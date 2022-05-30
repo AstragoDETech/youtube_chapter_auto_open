@@ -5,7 +5,7 @@
 // @match       https://www.youtube.com/*
 // @match       https://m.youtube.com/*
 // @grant       none
-// @version     1.1.0
+// @version     1.1.1
 // @author      AstragoDE (https://github.com/AstragoDE)
 // @run-at      document-end
 // @downloadURL https://github.com/AstragoTech/youtube_chapter_auto_open/raw/main/build/youtube_chapter_auto_open.user.js
@@ -3597,7 +3597,7 @@
   A.main__closure.prototype = {
     call$1(timer) {
       var t1;
-      if (timer._tick <= 10) {
+      if (timer._tick <= 12) {
         t1 = document.querySelector(".ytp-chapter-title-content");
         if (t1 != null)
           J.click$0$x(t1);

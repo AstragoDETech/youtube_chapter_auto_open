@@ -15,9 +15,9 @@ void main() {
     if (currentLoc != lastLoc) {
       /// Only run on video link
       if (currentLoc.startsWith(RegExp(r'https:\/\/(w{3}|m).youtube.com\/watch'))) {
-        /// Try to click the open chapter Button for 2.5 seconds
+        /// Try to click the open chapter Button for 3.0 seconds
         Timer.periodic(Duration(milliseconds: 250), (timer) {
-          if (timer.tick <= 10) {
+          if (timer.tick <= 12) {
             querySelector('.ytp-chapter-title-content')?.click();
           } else {
             timer.cancel();
