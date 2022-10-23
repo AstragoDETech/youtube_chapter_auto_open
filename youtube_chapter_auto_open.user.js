@@ -5,7 +5,7 @@
 // @match       https://www.youtube.com/*
 // @match       https://m.youtube.com/*
 // @grant       none
-// @version     2.0.0
+// @version     2.0.1
 // @author      AstragoDE (https://github.com/AstragoDE)
 // @run-at      document-end
 // @downloadURL https://github.com/AstragoTech/youtube_chapter_auto_open/raw/main/youtube_chapter_auto_open.user.js
@@ -36,7 +36,7 @@ var mainInterval = setInterval(function (timer) {
       var run = 0;
       var secondaryInterval = setInterval(function (timer) {
         run++;
-        if (run <= 12) {
+        if (run <= 16) {
           document.querySelector(".ytp-chapter-title-content")?.click();
         } else {
           // timer.cancel();
