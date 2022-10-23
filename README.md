@@ -24,4 +24,4 @@ Automatically open the YouTube chapter selection when opening a video.
 <br/>
 
 ## Made with:
-![Technologies](https://skillicons.dev/icons?i=dart)
+![Technologies](https://skillicons.dev/icons?i=js)
