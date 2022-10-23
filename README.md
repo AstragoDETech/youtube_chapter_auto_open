@@ -5,7 +5,7 @@ Automatically open the YouTube chapter selection when opening a video.
 
 <br/>
 
-<a href="https://github.com/AstragoTech/youtube_chapter_auto_open/raw/main/build/youtube_chapter_auto_open.user.js">
+<a href="https://github.com/AstragoTech/youtube_chapter_auto_open/raw/main/youtube_chapter_auto_open.user.js">
     <img src="https://img.shields.io/badge/-Use%20%2F%20Download-brightgreen?style=for-the-badge&logo=download" />
 </a>
 
@@ -19,7 +19,7 @@ Automatically open the YouTube chapter selection when opening a video.
     > - [Violentmonkey for Edge](https://microsoftedge.microsoft.com/addons/detail/eeagobfjdenkkddmbclomhiblgggliao)<br/>
     > - [Userscripts for Safari (MacOS/iOS/iPadOS)](https://apps.apple.com/us/app/userscripts/id1463298887)<br/>
 
-2. Install **YouTube chapter auto open** by clicking **[this link](https://github.com/AstragoTech/youtube_chapter_auto_open/raw/main/build/youtube_chapter_auto_open.user.js)** or using the button above.
+2. Install **YouTube chapter auto open** by clicking **[this link](https://github.com/AstragoTech/youtube_chapter_auto_open/raw/main/youtube_chapter_auto_open.user.js)** or using the button above.
 
 <br/>
 
