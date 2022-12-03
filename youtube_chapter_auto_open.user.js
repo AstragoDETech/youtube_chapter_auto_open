@@ -17,6 +17,7 @@
 // @compatible  opera Opera + Tampermonkey or Violentmonkey
 // @compatible  edge Edge + Tampermonkey or Violentmonkey
 // @compatible  safari Safari + Tampermonkey or Violentmonkey
+// @license     This work © 2022 by AstragoDE is licensed under CC BY-SA 4.0
 // ==/UserScript==
 
 var currentLoc = window.location.href;
