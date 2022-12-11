@@ -5,7 +5,7 @@
 // @match       https://www.youtube.com/*
 // @match       https://m.youtube.com/*
 // @grant       none
-// @version     2.0.1
+// @version     2.0.2
 // @author      AstragoDE (https://github.com/AstragoDE)
 // @run-at      document-end
 // @downloadURL https://github.com/AstragoTech/youtube_chapter_auto_open/raw/main/youtube_chapter_auto_open.user.js
