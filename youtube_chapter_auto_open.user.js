@@ -25,15 +25,11 @@ var lastLoc = "";
 
 var mainInterval = setInterval(function (timer) {
   currentLoc = window.location.href;
-
-  // /// Print currentt location
-  // window.console.log(currentLoc);
-
   /// Only run on change of Window Location
   if (currentLoc != lastLoc) {
     /// Only run on video link
     if (RegExp("^https://(w{3}|m).youtube.com/watch").test(currentLoc)) {
-      /// Try to click the open chapter Button for 3.0 seconds
+      /// Try to click the open chapter Button for 4.0 seconds
       var run = 0;
       var secondaryInterval = setInterval(function (timer) {
         run++;
@@ -46,6 +42,5 @@ var mainInterval = setInterval(function (timer) {
       }, 250);
     }
   }
-
   lastLoc = currentLoc;
 }, 250);
