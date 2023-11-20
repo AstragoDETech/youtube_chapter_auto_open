@@ -33,7 +33,7 @@ var mainInterval = setInterval(function (timer) {
       var run = 0;
       var secondaryInterval = setInterval(function (timer) {
         run++;
-        if (run <= 16) {
+        if (run <= 8) {
           document.querySelector(".ytp-chapter-title-content")?.click();
         } else {
           // timer.cancel();
