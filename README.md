@@ -1,4 +1,4 @@
-# YouTube chapter auto open
+# YouTube Chapter Auto Open
 Automatically open the YouTube chapter selection when opening a video.
 
 ## Download:
