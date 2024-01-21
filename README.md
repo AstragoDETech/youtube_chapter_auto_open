@@ -26,4 +26,10 @@ Automatically open the YouTube chapter selection when opening a video.
 <br/>
 
 ## Made with:
+
 ![Technologies](https://skillicons.dev/icons?i=js)
+
+## Notice
+
+This project is an independent endeavor and is not affiliated with or endorsed by Google LLC, the owner of the YouTube trademark. YouTube is a registered trademark of Google LLC. Any use of the YouTube name and logo within this project is for illustrative purposes only and does not imply any endorsement, sponsorship, or association with Google LLC.
+
